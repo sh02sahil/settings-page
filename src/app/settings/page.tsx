@@ -6,7 +6,7 @@ import { SettingsFormProps } from "@/interfaces/common.interface";
 export default async function Page() {
   let settingsData: SettingsFormProps | null = null;
   try {
-    const res = await fetch("http://localhost:3000/api");
+    const res = await fetch(process.env.API_ENDPOINT + "/api");
     settingsData = await res.json();
   } catch (error) {
     console.error(error);

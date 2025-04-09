@@ -8,7 +8,7 @@ export const updateSettingsAction = async (
   revalidationPath: string
 ) => {
   try {
-    const res = await fetch("http://localhost:3000/api", {
+    const res = await fetch(process.env.API_ENDPOINT + "/api", {
       method: "PUT",
       body: JSON.stringify(data),
     });
