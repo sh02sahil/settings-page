@@ -66,120 +66,118 @@ export default function SettingsForm({
   }, [data]);
 
   return (
-    <div className="flex w-full h-dvh flex-col items-center px-12 py-12 sm:px-16">
-      <div className="flex w-full flex-col items-center gap-8">
-        <div className="flex w-full items-center gap-4">
-          <label className="text-xl text-neutral-950 font-bold">
-            Application Settings
-          </label>
-          {isPending ? (
-            <RingLoader />
-          ) : (
-            <CheckCircleIcon className="w-5 aspect-square grow-0 shrink-0" />
-          )}
-        </div>
-        <hr className="border-px w-full border-neutral-200" />
-        <div className="flex w-full flex-col items-start justify-center gap-4">
-          <label className="w-full text-xl text-neutral-950 font-medium">
-            Notification Settings
-          </label>
+    <div className="flex w-full h-dvh overflow-y-scroll flex-col items-center gap-8 px-12 py-12 sm:px-16">
+      <div className="flex w-full items-center gap-4">
+        <label className="text-xl text-neutral-950 font-bold">
+          Application Settings
+        </label>
+        {isPending ? (
+          <RingLoader />
+        ) : (
+          <CheckCircleIcon className="w-5 aspect-square grow-0 shrink-0" />
+        )}
+      </div>
+      <hr className="border-px w-full border-neutral-200" />
+      <div className="flex w-full flex-col items-start justify-center gap-4">
+        <label className="w-full text-xl text-neutral-950 font-medium">
+          Notification Settings
+        </label>
+        <span className="w-full text-neutral-600 leading-5 text-sm">
+          We keep the notifications off by default. You can change the settings
+          for messages individually or you can reset to default.
+        </span>
+        <div className="flex max-w-full items-start justify-start gap-4">
           <span className="w-full text-neutral-600 leading-5 text-sm">
-            We keep the notifications off by default. You can change the
-            settings for messages individually or you can reset to default.
+            Do you want notifications for every message? You will receive
+            notification on the registered email address
           </span>
-          <div className="flex max-w-full items-start justify-start gap-4">
-            <span className="w-full text-neutral-600 leading-5 text-sm">
-              Do you want notifications for every message? You will receive
-              notification on the registered email address
-            </span>
-            <Switch
-              checked={data.showNotifications}
-              onCheckedChange={(val) => {
-                setData((prev) => ({ ...prev, showNotifications: val }));
-              }}
-            />
-          </div>
+          <Switch
+            checked={data.showNotifications}
+            onCheckedChange={(val) => {
+              setData((prev) => ({ ...prev, showNotifications: val }));
+            }}
+          />
         </div>
-        <hr className="border-2 w-full border-neutral-200 border-dashed" />
+      </div>
+      <hr className="border-2 w-full border-neutral-200 border-dashed" />
+      <div className="flex w-full flex-col items-start justify-center">
+        <Input
+          id="users"
+          onKeyDown={onKeyDown}
+          label="Add users to get particular notifications"
+          placeholder="Search Users"
+          className="w-full md:max-w-md"
+        />
+      </div>
+      <div className="flex w-full flex-wrap gap-3 -mt-4">
+        {data.users.map((user, index) => (
+          <Badge
+            onDelete={onDelete}
+            data-content={user}
+            data-category="users"
+            key={`user-${index}`}
+          >
+            {user}
+          </Badge>
+        ))}
+      </div>
+      <hr className="border-px w-full border-neutral-200" />
+      <div className="flex w-full flex-col items-center justify-center gap-4">
+        <label className="w-full text-xl text-neutral-950 font-medium">
+          Message Categories
+        </label>
+        <span className="w-full text-neutral-600 leading-5 text-sm">
+          These are the categories which are visible to the user. This also
+          helps you to filter and view messages as per your requirement.
+        </span>
         <div className="flex w-full flex-col items-start justify-center">
           <Input
-            id="users"
+            id="messageCategories"
             onKeyDown={onKeyDown}
-            label="Add users to get particular notifications"
-            placeholder="Search Users"
+            label="Add the categories"
+            placeholder="Enter the category name"
             className="w-full md:max-w-md"
           />
         </div>
-        <div className="flex w-full flex-wrap gap-3 -mt-4">
-          {data.users.map((user, index) => (
+        <div className="flex w-full flex-wrap gap-3">
+          {data.messageCategories.map((category, index) => (
             <Badge
+              data-content={category}
+              data-category="messageCategories"
               onDelete={onDelete}
-              data-content={user}
-              data-category="users"
-              key={`user-${index}`}
+              key={`messageCategories-${index}`}
             >
-              {user}
+              {category}
             </Badge>
           ))}
         </div>
-        <hr className="border-px w-full border-neutral-200" />
-        <div className="flex w-full flex-col items-center justify-center gap-4">
-          <label className="w-full text-xl text-neutral-950 font-medium">
-            Message Categories
-          </label>
-          <span className="w-full text-neutral-600 leading-5 text-sm">
-            These are the categories which are visible to the user. This also
-            helps you to filter and view messages as per your requirement.
-          </span>
-          <div className="flex w-full flex-col items-start justify-center">
-            <Input
-              id="messageCategories"
-              onKeyDown={onKeyDown}
-              label="Add the categories"
-              placeholder="Enter the category name"
-              className="w-full md:max-w-md"
-            />
-          </div>
-          <div className="flex w-full flex-wrap gap-3">
-            {data.messageCategories.map((category, index) => (
-              <Badge
-                data-content={category}
-                data-category="messageCategories"
-                onDelete={onDelete}
-                key={`messageCategories-${index}`}
-              >
-                {category}
-              </Badge>
-            ))}
-          </div>
+      </div>
+      <div className="flex w-full flex-col items-center justify-center gap-4">
+        <label className="w-full text-xl text-neutral-950 font-medium">
+          Custom Replies
+        </label>
+        <span className="w-full text-neutral-600 leading-5 text-sm">
+          These are custom replies which you can send to users instantly.
+        </span>
+        <div className="flex w-full flex-col items-start justify-center">
+          <Input
+            id="replies"
+            onKeyDown={onKeyDown}
+            placeholder="Add replies"
+            className="w-full md:max-w-md"
+          />
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-4">
-          <label className="w-full text-xl text-neutral-950 font-medium">
-            Custom Replies
-          </label>
-          <span className="w-full text-neutral-600 leading-5 text-sm">
-            These are custom replies which you can send to users instantly.
-          </span>
-          <div className="flex w-full flex-col items-start justify-center">
-            <Input
-              id="replies"
-              onKeyDown={onKeyDown}
-              placeholder="Add replies"
-              className="w-full md:max-w-md"
-            />
-          </div>
-          <div className="flex w-full flex-wrap gap-3">
-            {data.replies.map((reply, index) => (
-              <Badge
-                data-content={reply}
-                data-category="replies"
-                onDelete={onDelete}
-                key={`replies-${index}`}
-              >
-                {reply}
-              </Badge>
-            ))}
-          </div>
+        <div className="flex w-full flex-wrap gap-3">
+          {data.replies.map((reply, index) => (
+            <Badge
+              data-content={reply}
+              data-category="replies"
+              onDelete={onDelete}
+              key={`replies-${index}`}
+            >
+              {reply}
+            </Badge>
+          ))}
         </div>
       </div>
     </div>

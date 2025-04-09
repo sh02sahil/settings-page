@@ -15,11 +15,5 @@ export default async function Page() {
   if (!settingsData) {
     return notFound();
   }
-  return (
-    <SettingsForm
-      initialData={settingsData}
-      // onboarding={userData.onboarding}
-      // user={userData.user}
-    />
-  );
+  return <SettingsForm initialData={settingsData} />;
 }
